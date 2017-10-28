@@ -1,5 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>cn.mldn</groupId>
@@ -44,9 +44,17 @@
 		<jdk.version>1.8</jdk.version>
 		<profiles.dir>src/main/profiles</profiles.dir>
 		<resources.dir>src/main/resources</resources.dir>
+		
+		<mldnshiro.version>0.0.1</mldnshiro.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
+			   <dependency>
+					<groupId>cn.mldn</groupId>
+					<artifactId>mldnshiro-ssm-api</artifactId>
+					<version>${mldnshiro.version}</version>
+				</dependency>
+
 			<dependency>
 				<groupId>commons-logging</groupId>
 				<artifactId>commons-logging</artifactId>
@@ -326,5 +334,7 @@
 		<module>mldnshiro-realm</module>
 		<module>mldnshiro-auth</module>
 		<module>mldnshiro-web</module>
-	</modules>
+        <module>mldnshiro-ssm-api</module>
+        <module>ssm-service-member</module>
+  </modules>
 </project>
