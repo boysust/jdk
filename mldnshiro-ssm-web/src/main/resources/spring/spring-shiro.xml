@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+	<!-- 定义注解的扫描包，也就是说你必须配置好扫描包之后才可以扫描该包中所有类上出现的注解信息 -->
+	<context:component-scan base-package="cn.mldn"/>
+	<!-- 定义项目之中要使用的认证与授权处理的Realm对象，该对象一定要配置到安全的管理器之中 -->
+	<bean id="memberRealm" class="cn.mldn.mldnshiro.ssm.realm.MemberRealm"/>
+	<!-- 定义Shiro的安全管理器，所有的认证与授权处理一定首先交给安全处理器进行 -->
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+	    <property name="realm" ref="memberRealm"/>   <!-- 配置要使用的Realm对象 -->
+   	</bean> 
+   	<!-- 配置文件里面已经将所有的配置交给Spring负责了，所以对于过滤器的处理操作一定要交给指定的类完成配置 -->
+   	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+   	    <!-- 在此过滤器管理之中定义要使用的安全管理器 -->
+   	    <property name="securityManager" ref="securityManager"/>
+   	    <!-- 当认证授权出现了错误之后，应该跳转到登录页面，要由Ation跳转到JSP页面 -->
+   	    <property name="loginUrl" value="/login_pre.action"/>
+   	    <!-- 授权失败之后，跳转页面也是Action跳转 -->
+   	    <property name="unauthorizedUrl" value="/unauth.action"/>
+   	    <!-- 定义所有的访问处理规则 -->
+   	    <property name="filterChainDefinitions">
+   	       <value>
+   	           /pages/back/**=authc
+   	       </value>
+   	    </property>
+   	</bean>
+</beans>

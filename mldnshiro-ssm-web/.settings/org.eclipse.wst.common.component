@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="mldnshiro-ssm-web">
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/java"/>
+        <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
+        <dependent-module archiveName="mldnshiro-ssm-service-member-0.0.1.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/mldnshiro-ssm-service-member/mldnshiro-ssm-service-member">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="mldnshiro-ssm-api-0.0.1.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/mldnshiro-ssm-api/mldnshiro-ssm-api">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <property name="context-root" value="mldnshiro-ssm-web"/>
+        <property name="java-output-path" value="/mldnshiro-ssm-web/target/classes"/>
+    </wb-module>
+</project-modules>
