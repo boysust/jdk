@@ -3,7 +3,7 @@
 	request.setCharacterEncoding("UTF-8");
 	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
 			+ request.getContextPath() + "/";
-	String login_url = basePath + "login.action" ;
+	String login_url = basePath + "loginForm.action" ;
 %>
 <html>
 <head>

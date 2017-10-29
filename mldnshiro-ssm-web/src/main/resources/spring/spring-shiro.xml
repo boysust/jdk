@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
@@ -13,20 +13,39 @@
 	<!-- 定义Shiro的安全管理器，所有的认证与授权处理一定首先交给安全处理器进行 -->
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
 	    <property name="realm" ref="memberRealm"/>   <!-- 配置要使用的Realm对象 -->
-   	</bean> 
+   	</bean>
+   	 
+   	<!-- 通过配置FormAuthenticationFilter来实现内置登录的操作控制 -->
+   	<bean id="formAuthenticationFilter" class="org.apache.shiro.web.filter.authc.FormAuthenticationFilter">
+   	    <property name="usernameParam" value="mid"/>   <!-- 定义表单参数名称 -->
+   	    <property name="passwordParam" value="password"/>   <!--定义表单参数名称 -->
+   	    <!-- 如果要进行登录的提交一定要有一个控制器（Servlet,Filter)，但是至少需要一个提交地址 -->
+   	    <property name="loginUrl" value="/loginForm.action"/>
+   	</bean>
+   	
    	<!-- 配置文件里面已经将所有的配置交给Spring负责了，所以对于过滤器的处理操作一定要交给指定的类完成配置 -->
    	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
    	    <!-- 在此过滤器管理之中定义要使用的安全管理器 -->
    	    <property name="securityManager" ref="securityManager"/>
    	    <!-- 当认证授权出现了错误之后，应该跳转到登录页面，要由Ation跳转到JSP页面 -->
-   	    <property name="loginUrl" value="/login_pre.action"/>
+   	    <property name="loginUrl" value="/loginForm.action"/>
    	    <!-- 授权失败之后，跳转页面也是Action跳转 -->
    	    <property name="unauthorizedUrl" value="/unauth.action"/>
    	    <!-- 定义所有的访问处理规则 -->
+   	    <property name="successUrl" value="/pages/back/welcome.action"/>
+   	    
+   	    <property name="filters"><!-- 由于重新定义了过滤，所以重新追加 -->
+   	       <map>
+   	           <!-- 当执行了authc的检测的时候，明确的找到新的过滤配置类 -->
+   	           <entry key="authc" value-ref="formAuthenticationFilter"/>
+   	       </map>
+   	    </property>
+   	    <!-- 定义所有的访问处理路径 -->
    	    <property name="filterChainDefinitions">
-   	       <value>
-   	           /pages/back/**=authc
-   	       </value>
+   	        <value>
+   	            /loginForm.action=authc
+   	            /pages/back/**=authc
+   	        </value>
    	    </property>
    	</bean>
 </beans>
