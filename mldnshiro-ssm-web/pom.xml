@@ -13,6 +13,10 @@
 	<name>mldnshiro-ssm-web Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 	<dependencies>
+	    <dependency>
+			<groupId>cn.mldn</groupId>
+			<artifactId>mldnshiro-ssm-service-dept</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>cn.mldn</groupId>
 			<artifactId>mldnshiro-ssm-service-member</artifactId>

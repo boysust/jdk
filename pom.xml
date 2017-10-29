@@ -49,6 +49,11 @@
 	</properties>
 	<dependencyManagement>
 		<dependencies>
+		       <dependency>
+					<groupId>cn.mldn</groupId>
+					<artifactId>mldnshiro-ssm-service-dept</artifactId>
+					<version>${mldnshiro.version}</version>
+				</dependency>
 			   <dependency>
 					<groupId>cn.mldn</groupId>
 					<artifactId>mldnshiro-ssm-api</artifactId>
@@ -347,5 +352,6 @@
         <module>mldnshiro-ssm-api</module>
         <module>ssm-service-member</module>
     <module>mldnshiro-ssm-web</module>
+    <module>mldnshiro-ssm-service-dept</module>
   </modules>
 </project>

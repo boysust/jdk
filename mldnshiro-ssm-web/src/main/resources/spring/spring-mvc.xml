@@ -12,6 +12,19 @@
 		http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 	<context:annotation-config/>	<!-- 启用注解配置 -->
 	<context:component-scan base-package="cn.mldn"/>
+	<!-- 定义控制器的代理配置处理操作，即：需要使用注解进行路径拦截操作中起作用 -->
+	<bean id="controllerDefaultAdvisorAutoProxyCreator"
+		class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+		depends-on="lifecycleBeanPostProcessor">
+		<property name="proxyTargetClass" value="true"/>	<!-- 代理转换 -->
+	</bean> 
+	<!-- 以上配置了要使用的代理类，但是需要在安全管理器之中配置一个拦截器 -->
+	<bean id="controllerAuthorizationAttributeSourceAdvisor" 
+		class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+		<!-- 引入要使用的安全管理器 -->
+		<property name="securityManager" ref="securityManager"/>
+	</bean> 
+	
 	<mvc:annotation-driven/>	<!-- 启用SpringMVC注解配置支持 -->
 	<mvc:default-servlet-handler/>	<!-- 启动Servlet的配置处理 -->
 <!-- 	<mvc:interceptors>	定义拦截器，而且可以定义多个
@@ -21,8 +34,6 @@
 		</mvc:interceptor>
 	</mvc:interceptors> -->
 	
-	
-	
 	<!-- 配置错误的映射处理，出现了指定的异常之后可以让其跳转到错误页（/WEB-INF/pages/errors.jsp） -->
 	<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
 		<property name="exceptionMappings">	<!-- 进行整体的错误映射 -->
@@ -30,7 +41,10 @@
 				<prop key="org.springframework.web.multipart.MaxUploadSizeExceededException">
 					errors
 				</prop>
-			</props>
+				<prop key="org.apache.shiro.authz.UnauthorizedException">
+					errors
+				</prop>
+			</props> 
 		</property>
 	</bean>
 	
